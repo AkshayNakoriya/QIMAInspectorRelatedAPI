@@ -7,26 +7,26 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
 db = SQLAlchemy(app)
 
 class InspectorDetails(db.Model):
-    orderid = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    OrderID = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(80), nullable=False)
     contact_number = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
 
 @app.route('/get_inspector_details/<int:orderid>', methods=['GET'])
-def get_inspector_details(orderid):
+def get_inspector_details(OrderID):
     try:
-        inspector = InspectorDetails.query.filter_by(orderid=orderid).first()
+        inspector = InspectorDetails.query.filter_by(OrderID=OrderID).first()
 
         if inspector:
             inspector_info = {
-                'orderid': inspector.orderid,
+                'OrderID': inspector.OrderID,
                 'name': inspector.name,
                 'contact_number': inspector.contact_number,
                 'email': inspector.email
             }
             return jsonify(inspector_info), 200
         else:
-            return jsonify({'error': 'Inspector details not found for order ID {}'.format(orderid)}), 404
+            return jsonify({'error': 'Inspector details not found for order ID {}'.format(OrderID)}), 404
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -37,7 +37,7 @@ def post_inspector_details():
         data = request.get_json()
 
         new_inspector = InspectorDetails(
-            orderid=data['orderid'],
+            orderid=data['OrderID'],
             name=data['name'],
             contact_number=data['contact_number'],
             email=data['email']
