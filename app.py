@@ -12,7 +12,7 @@ class InspectorDetails(db.Model):
     contact_number = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
 
-@app.route('/get_inspector_details/<int:orderid>', methods=['GET'])
+@app.route('/get_inspector_details/<int:OrderID>', methods=['GET'])
 def get_inspector_details(OrderID):
     try:
         inspector = InspectorDetails.query.filter_by(OrderID=OrderID).first()
@@ -37,7 +37,7 @@ def post_inspector_details():
         data = request.get_json()
 
         new_inspector = InspectorDetails(
-            orderid=data['OrderID'],
+            OrderID=data['OrderID'],
             name=data['name'],
             contact_number=data['contact_number'],
             email=data['email']
